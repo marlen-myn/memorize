@@ -34,6 +34,10 @@ struct Theme: Codable, Identifiable, Hashable {
     }
     
     func createContent(_ index: Int) -> String {
-        return self.content[index]
+        self.content[index]
+    }
+    
+    func isAllowedToRemojeEmoji() -> Bool {
+        self.content.count > self.numberOfCards
     }
 }

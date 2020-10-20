@@ -55,4 +55,39 @@ class EmojiMemoryGameStore: ObservableObject {
             storedThemes[index].name = newName
         }
     }
+    
+    public func addEmoji(_ emoji: String, to theme:Theme) {
+        if let index = storedThemes.firstIndex(where: {$0 == theme}) {
+            for item in Array(emoji) {
+                let trimmedEmoji = String(item).trimmingCharacters(in: .whitespaces)
+                if !storedThemes[index].content.contains(trimmedEmoji), trimmedEmoji != "" {
+                    storedThemes[index].content.append(trimmedEmoji)
+                }
+            }
+        }
+    }
+    
+    public func removeEmoji(_ emoji: String, from theme:Theme) {
+        if let index = storedThemes.firstIndex(where: {$0 == theme}), theme.isAllowedToRemojeEmoji() {
+            storedThemes[index].content = storedThemes[index].content.filter { $0 != emoji }
+        }
+    }
+    
+    public func inreaseNumberOfCards(for theme: Theme) {
+        if let index = storedThemes.firstIndex(where: {$0 == theme}), theme.content.count > theme.numberOfCards {
+            storedThemes[index].numberOfCards += 1
+        }
+    }
+    
+    public func decreaseNumberOfCards(for theme: Theme) {
+        if let index = storedThemes.firstIndex(where: {$0 == theme}), theme.numberOfCards > 4 {
+            storedThemes[index].numberOfCards -= 1
+        }
+    }
+    
+    public func changeThemeColor(_ color:Color, for theme: Theme) {
+        if let index = storedThemes.firstIndex(where: {$0 == theme}) {
+            storedThemes[index].rgbColor = UIColor(color).rgb
+        }
+    }
 }
